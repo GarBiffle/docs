@@ -1,0 +1,119 @@
+---
+title: "Set Up and Manage Integration Connections"
+sidebarTitle: "Integrations Setup"
+description: "Configure sync frequency, content filters, and re-authorization for Slack, Notion, Google Drive, Confluence, and GitHub integrations in Company Brain."
+---
+
+Once you've connected an integration, you can fine-tune exactly what gets synced, how often, and which content is excluded. Precise configuration keeps your knowledge base focused and your search results relevant — preventing noise from channels, folders, or repositories that don't belong.
+
+## Integration settings overview
+
+Go to **Settings → Integrations** to see all your connected integrations. Each integration card displays:
+
+- **Status** — `Active`, `Paused`, or `Error`
+- **Last sync time** — the timestamp of the most recent successful sync
+- **Item count** — the number of knowledge items currently indexed from that source
+
+Click the integration name or the **Settings** button on its card to open the full configuration panel.
+
+## Sync frequency
+
+Control how often Company Brain pulls fresh content from each integration. Available options vary by integration:
+
+| Frequency | Available for |
+|---|---|
+| **Real-time** | Notion, Slack |
+| **Every 15 minutes** | All integrations |
+| **Every 30 minutes** | All integrations |
+| **Every hour** | All integrations |
+| **Manual only** | All integrations |
+
+To change the sync frequency:
+
+1. Go to **Settings → Integrations**.
+2. Click the integration you want to configure.
+3. Under **Sync settings**, open the **Frequency** dropdown.
+4. Select your preferred interval.
+5. Click **Save**.
+
+Real-time sync uses webhooks and is recommended for fast-moving teams where timely search results matter most.
+
+## Content filters
+
+Each integration supports filters that let you include or exclude specific content. Configure these under **Settings → Integrations → [Integration Name] → Content filters**.
+
+<AccordionGroup>
+  <Accordion title="Slack">
+    - **Channels to index** — select specific public channels to sync. By default, no channels are selected; you must opt in.
+    - **Exclude DMs** — direct messages are excluded by default. Toggle this off only if your workspace policy permits indexing private conversations.
+    - **Minimum message length** — set a character threshold (e.g. 100 characters) to avoid indexing short reactions, greetings, or noise.
+  </Accordion>
+
+  <Accordion title="Notion">
+    - **Pages and databases to include** — choose specific top-level pages or databases from your Notion workspace. Sub-pages are included automatically.
+    - **Exclude pages by tag** — enter one or more Notion tags (e.g. `internal-only`, `archive`) to exclude matching pages from sync.
+  </Accordion>
+
+  <Accordion title="Google Drive">
+    - **Folders** — select one or more Drive folders to sync. Only files within those folders (and sub-folders) are indexed.
+    - **File types** — choose which formats to include: Google Docs, Google Sheets, Google Slides, and/or PDFs. Other file types are ignored.
+  </Accordion>
+
+  <Accordion title="Confluence">
+    - **Spaces** — choose which Confluence spaces to sync. Each Confluence space is listed by its space key and display name.
+  </Accordion>
+
+  <Accordion title="GitHub">
+    - **Repositories** — select which repos to index from your connected GitHub organization or account.
+    - **Issue discussions** — toggle on to include GitHub Issues in search results.
+    - **Pull requests** — toggle on to include PR descriptions and comments.
+  </Accordion>
+</AccordionGroup>
+
+After updating content filters, click **Save and re-sync** to apply the new rules immediately. Previously indexed items that no longer match the filters are removed from your knowledge base within a few minutes.
+
+## Pausing and resuming
+
+Pausing an integration stops all new syncs while preserving everything already indexed. This is useful during data migrations, maintenance windows, or when you want to temporarily freeze the knowledge base for a specific source.
+
+To pause an integration:
+
+1. Go to **Settings → Integrations**.
+2. Click the integration you want to pause.
+3. Click **Pause sync**.
+4. Confirm the action.
+
+The integration's status changes to `Paused`. All items indexed before pausing remain fully searchable.
+
+To resume, open the same integration settings panel and click **Resume sync**. The next sync runs according to your configured frequency.
+
+## Re-authorizing
+
+If an integration displays an `Error` status with the message **"Authorization expired"**, the OAuth token Company Brain uses to access that service has been revoked or has expired.
+
+To re-authorize:
+
+1. Go to **Settings → Integrations**.
+2. Click the integration showing the error.
+3. Click **Re-authorize**.
+4. Complete the OAuth flow in the pop-up window, signing in to the external service and granting the required permissions.
+
+The integration resumes automatically once authorization is confirmed. A fresh sync kicks off immediately.
+
+## Removing an integration
+
+<Warning>
+Removing an integration **permanently deletes all indexed content** from that source from your Company Brain workspace. Your data in the original source (e.g. your Notion workspace or Google Drive) is not affected, but all knowledge items, search index entries, and graph connections derived from that integration are removed and cannot be recovered.
+</Warning>
+
+To remove an integration:
+
+1. Go to **Settings → Integrations**.
+2. Click the integration you want to remove.
+3. Scroll to the **Danger Zone** section.
+4. Click **Remove integration**.
+5. Type the integration name to confirm, then click **Confirm removal**.
+
+<Tip>
+Need to index a source that isn't listed here? You can build custom integrations using the Company Brain REST API. Any data you push via the API becomes fully searchable and appears in the knowledge graph. See the [API Overview](/api/overview) to get started.
+</Tip>

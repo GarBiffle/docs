@@ -1,0 +1,102 @@
+---
+title: "Configure Notifications and Digests in Company Brain"
+sidebarTitle: "Notifications"
+description: "Set up real-time notifications, weekly knowledge digests, and Slack alerts to stay informed when important knowledge is added or updated."
+---
+
+Company Brain keeps your team informed through in-app notifications, email digests, and Slack alerts so important knowledge updates never go unnoticed. You control the signal-to-noise ratio — choose exactly which events trigger a notification and through which channel they reach you.
+
+## Notification types
+
+Company Brain delivers notifications through three channels, each suited to different urgency levels and working styles.
+
+### 1. In-app notifications
+
+Click the **bell icon** in the top-right corner of the app to open your notifications panel. In-app notifications are triggered by:
+
+- **Mentions** — someone typed `@yourusername` in a knowledge item or comment.
+- **Followed item updates** — an item or space you follow has been edited or has new comments.
+- **Space announcements** — a Space Admin posted an announcement to a space you're a member of.
+
+Unread notifications are indicated by a red badge on the bell icon. Click any notification to jump directly to the relevant item.
+
+### 2. Email notifications
+
+Email notifications deliver a digest of new and updated knowledge items from your spaces. You can choose to receive them **daily** (sent at 8 AM in your timezone) or **weekly** (sent every Monday morning). Email notifications are off by default and must be enabled in your personal notification settings.
+
+### 3. Slack notifications
+
+Send automated alerts to a Slack channel when items are added or updated in a specific space. Slack notifications are configured per-space (not per-user) and require the Slack integration to be connected. See [Set Up and Manage Integration Connections](/configuration/integrations-setup) for instructions on connecting Slack.
+
+## Configuring your personal notifications
+
+<Steps>
+  <Step title="Open your avatar menu">
+    Click your **avatar** (profile picture or initials) in the top-right corner of the app.
+  </Step>
+  <Step title="Open Notification Settings">
+    Click **Notification Settings** in the dropdown menu.
+  </Step>
+  <Step title="Toggle notification types">
+    Turn each notification type on or off using the toggles:
+    - In-app notifications (mentions, follows, announcements)
+    - Email notifications
+    - Browser push notifications (if enabled in your browser)
+  </Step>
+  <Step title="Set email digest frequency">
+    If email notifications are enabled, select your preferred digest frequency: **Daily**, **Weekly**, or **Off**.
+  </Step>
+  <Step title="Save your preferences">
+    Click **Save preferences**. Your settings take effect immediately.
+  </Step>
+</Steps>
+
+## Configuring Slack alerts for a space
+
+Space-level Slack alerts notify a channel whenever specific events happen in that space. Only Space Admins and Workspace Owners can configure these.
+
+<Steps>
+  <Step title="Open the Space">
+    Navigate to the Space you want to configure alerts for and open it.
+  </Step>
+  <Step title="Open Space settings">
+    Click the **gear icon** (⚙️) next to the space name, then click **Notification Settings**.
+  </Step>
+  <Step title="Choose a Slack channel">
+    From the **Slack channel** dropdown, select the channel where alerts should be posted. Only channels that the Company Brain Slack app has been invited to will appear in this list.
+  </Step>
+  <Step title="Select alert events">
+    Choose which events trigger a Slack alert:
+    - **New items added** — a knowledge item is created in the space
+    - **Items updated** — an existing item is edited
+    - **New comments** — someone comments on an item in the space
+  </Step>
+  <Step title="Save">
+    Click **Save**. Alerts will begin posting to your chosen Slack channel for future events.
+  </Step>
+</Steps>
+
+## @mentions
+
+Typing `@username` anywhere in a knowledge item's body or in a comment sends that user an **in-app notification** and an **email notification** (if they have email notifications enabled). Mentions are a lightweight way to:
+
+- Assign action items directly within a knowledge item.
+- Flag a piece of knowledge as relevant to a specific teammate.
+- Loop in subject-matter experts during collaborative editing.
+
+The mentioned user receives a link directly to the item and the exact location of the mention. You can mention multiple users in a single item by adding multiple `@username` references.
+
+## Following items and spaces
+
+Follow any item or space to receive notifications whenever it changes — without waiting to be @mentioned.
+
+- **To follow an item** — open the item and click the **Follow** button near the top-right of the item view.
+- **To follow a space** — open the space and click **Follow** next to the space name.
+
+You'll receive in-app notifications (and email notifications, if enabled) whenever the followed item or space is updated, commented on, or has new items added.
+
+To stop following, click the **Following** button (it turns blue when active) and select **Unfollow** from the dropdown.
+
+<Tip>
+For larger teams, weekly email digests strike the right balance: everyone stays informed about new knowledge without the interruption of real-time alerts. Enable the weekly digest for all members, and reserve Slack alerts and @mentions for genuinely time-sensitive updates.
+</Tip>

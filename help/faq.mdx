@@ -1,0 +1,96 @@
+---
+title: "Frequently Asked Questions about Company Brain"
+sidebarTitle: "FAQ"
+description: "Answers to the most common questions about Company Brain's features, pricing, data security, integrations, and account management."
+---
+
+Find answers to the most common questions about Company Brain below. If you don't see your question answered here, reach out to our support team at [support@companybrain.ai](mailto:support@companybrain.ai) — we typically respond within one business day.
+
+<AccordionGroup>
+  <Accordion title="What is Company Brain?">
+    Company Brain is a knowledge management platform that centralizes your team's collective intelligence in one place. It combines AI-powered search, a visual knowledge graph, organized spaces, and integrations with the tools your team already uses — including Slack, Notion, Google Drive, Confluence, and GitHub. The result is a single, searchable source of truth that grows smarter as your team adds knowledge.
+  </Accordion>
+
+  <Accordion title="How does AI search work?">
+    Company Brain uses **semantic vector search**, which means it understands the meaning and intent behind your query — not just the exact words. When you search for "how do we handle customer refunds?", it will surface relevant policies and process documents even if they use different phrasing like "return procedures" or "reimbursement policy." This approach consistently outperforms traditional keyword search, especially for institutional knowledge that spans many documents and sources.
+  </Accordion>
+
+  <Accordion title="Is my data secure?">
+    Yes. Security is a core part of how Company Brain is built:
+
+    - **Encryption at rest** — all stored data is encrypted with AES-256.
+    - **Encryption in transit** — all data is transmitted using TLS 1.3.
+    - **Compliance** — Company Brain is SOC 2 Type II certified and fully GDPR-compliant.
+    - **AI model isolation** — your data is never used to train shared or public AI models. Each workspace's data is completely isolated.
+
+    You can request a copy of our SOC 2 report or Data Processing Agreement (DPA) by contacting your account manager or emailing [support@companybrain.ai](mailto:support@companybrain.ai).
+  </Accordion>
+
+  <Accordion title="What integrations are supported?">
+    Company Brain currently supports the following integrations:
+
+    - **Slack** — index messages from selected channels
+    - **Notion** — sync pages and databases
+    - **Google Drive** — index Docs, Sheets, Slides, and PDFs
+    - **Confluence** — sync pages from selected Confluence spaces
+    - **GitHub** — index repositories, issues, and pull requests
+
+    More integrations are coming soon. If you need to connect a tool not listed here, you can build a **custom integration** using the Company Brain REST API — see the [API Overview](/api/overview) for details.
+  </Accordion>
+
+  <Accordion title="How many knowledge items can I store?">
+    Item limits depend on your plan:
+
+    | Plan | Item limit |
+    |---|---|
+    | **Free** | 1,000 items |
+    | **Pro** | 50,000 items |
+    | **Business** | Unlimited |
+    | **Enterprise** | Unlimited + priority support |
+
+    Items include all knowledge entries regardless of source — manually created items and items synced from integrations both count toward your limit. You can view your current usage in **Settings → Billing**.
+  </Accordion>
+
+  <Accordion title="Can I export my data?">
+    Yes. You can export a full copy of your workspace's knowledge at any time:
+
+    1. Go to **Settings → Data → Export**.
+    2. Click **Request export**.
+    3. Once the export is ready (usually within a few minutes), you'll receive an email with a download link.
+
+    The download is a ZIP archive containing all your knowledge items as **Markdown files** plus a `metadata.json` file with structured metadata (tags, authors, timestamps, links). Exports are useful for backups, migrations, and compliance purposes.
+  </Accordion>
+
+  <Accordion title="How do I cancel my subscription?">
+    To cancel your subscription:
+
+    1. Go to **Settings → Billing → Cancel Plan**.
+    2. Follow the cancellation prompts.
+
+    After cancellation, your workspace continues to function normally until the **end of your current billing period** — you won't lose access immediately. After that date, your workspace downgrades to the Free plan. Your data is retained for 90 days before being permanently deleted, giving you time to export anything you need.
+  </Accordion>
+
+  <Accordion title="Does Company Brain support SSO?">
+    Yes. Company Brain supports **SAML 2.0 Single Sign-On (SSO)** on the Business and Enterprise plans. SSO lets your team log in with your existing identity provider (e.g. Okta, Azure AD, Google Workspace) without managing separate passwords.
+
+    **SCIM provisioning** — automated user provisioning and deprovisioning — is available on the Enterprise plan, making it easy to manage large teams through your identity provider.
+
+    To configure SSO, go to **Settings → Security → Single Sign-On** or contact your account manager for assisted setup.
+  </Accordion>
+
+  <Accordion title="Can I use Company Brain offline?">
+    Company Brain is a cloud-based web application and requires an active internet connection to search, create, and sync knowledge. There is no offline mode at this time.
+
+    A **mobile-optimized web experience** is available — open `app.companybrain.ai` in your mobile browser for a responsive interface. Native iOS and Android apps are on our product roadmap.
+  </Accordion>
+
+  <Accordion title="How is the knowledge graph built?">
+    The knowledge graph is built **automatically** — no manual configuration is required. Connections between items are created from three sources:
+
+    1. **Shared tags** — items with overlapping tags are clustered together in the graph.
+    2. **Explicit links** — use the `[[Item Name]]` notation anywhere in an item's body to create a direct link to another item. The graph renders this as a visible edge between the two nodes.
+    3. **Usage patterns** — Company Brain analyzes how your team searches and navigates to surface non-obvious relationships between items over time.
+
+    The graph becomes richer and more useful as your workspace grows. We recommend applying consistent tags and using `[[Item Name]]` links liberally to accelerate graph development.
+  </Accordion>
+</AccordionGroup>

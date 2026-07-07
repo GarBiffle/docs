@@ -1,0 +1,132 @@
+---
+title: "Company Brain REST API Reference Overview"
+sidebarTitle: "Overview"
+description: "The Company Brain REST API lets you create, search, and manage knowledge items, spaces, and users programmatically using standard HTTP requests."
+---
+
+The Company Brain REST API gives you programmatic access to your workspace's collective knowledge. Use it to create and update knowledge items, run semantic searches, manage spaces and users, and listen for real-time changes via webhooks — all through standard HTTP requests from any language or tool.
+
+## Base URL
+
+All API requests are made to the following base URL. Every endpoint path is appended directly after `/v1`.
+
+```
+https://api.companybrain.ai/v1
+```
+
+## Authentication
+
+Every request to the Company Brain API must include a valid API key. Pass your key as a Bearer token in the `Authorization` header:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+See the [Authentication guide](/api/authentication) for instructions on generating keys, choosing permission scopes, and rotating or revoking keys.
+
+## Request Format
+
+All request and response bodies use JSON. When sending data with `POST` or `PUT` requests, include the `Content-Type` header so the API can correctly parse your payload.
+
+```
+Content-Type: application/json
+```
+
+## Response Format
+
+Every API response is a JSON object. Successful responses include a `success` flag, a `data` field containing the requested resource or list, and a `meta` object with pagination details on list endpoints.
+
+```json
+{
+  "success": true,
+  "data": { ... },
+  "meta": {
+    "page": 1,
+    "per_page": 20,
+    "total": 142
+  }
+}
+```
+
+## Error Responses
+
+When a request cannot be completed, the API returns a JSON error object describing what went wrong. Use the `error.code` and `error.message` fields to handle errors programmatically.
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The 'title' field is required.",
+    "details": [
+      {
+        "field": "title",
+        "issue": "This field must not be blank."
+      }
+    ]
+  }
+}
+```
+
+The following HTTP status codes are used across all endpoints:
+
+| Status code | Meaning |
+|---|---|
+| `400 Bad Request` | The request was malformed or missing required fields. |
+| `401 Unauthorized` | No API key was provided, or the key is invalid. |
+| `403 Forbidden` | Your API key does not have permission to perform this action. |
+| `404 Not Found` | The requested resource does not exist. |
+| `422 Unprocessable Entity` | The request was well-formed but failed validation. |
+| `429 Too Many Requests` | You have exceeded the rate limit for your API key. |
+| `500 Internal Server Error` | Something went wrong on the Company Brain side. Try again later. |
+
+## Rate Limiting
+
+Each API key is allowed **1,000 requests per minute**. Every response includes the following headers so you can track your current usage:
+
+| Header | Description |
+|---|---|
+| `X-RateLimit-Limit` | The maximum number of requests allowed per minute. |
+| `X-RateLimit-Remaining` | The number of requests remaining in the current window. |
+| `X-RateLimit-Reset` | The Unix timestamp at which the current window resets. |
+
+When you exceed the limit, the API returns a `429 Too Many Requests` response with a `Retry-After` header indicating how many seconds to wait before retrying.
+
+<Tip>
+  Structure long-running jobs to batch requests and check `X-RateLimit-Remaining` before each call. Back off and retry after the value in `Retry-After` when you receive a `429`.
+</Tip>
+
+## Pagination
+
+All list endpoints support cursor-free, page-based pagination using the `page` and `per_page` query parameters. The `meta` object in each response tells you the current page, the page size, and the total number of matching records.
+
+| Parameter | Default | Maximum | Description |
+|---|---|---|---|
+| `page` | `1` | — | The page number to retrieve. |
+| `per_page` | `20` | `100` | The number of records to return per page. |
+
+**Example request:**
+
+```bash
+curl "https://api.companybrain.ai/v1/knowledge?page=2&per_page=50" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+---
+
+## Explore the API
+
+<CardGroup cols={2}>
+  <Card title="Knowledge" icon="brain" href="/api/knowledge">
+    Create, retrieve, update, and delete knowledge items in your workspace.
+  </Card>
+  <Card title="Search" icon="magnifying-glass" href="/api/search">
+    Run semantic and keyword searches across your workspace's knowledge graph.
+  </Card>
+  <Card title="Spaces" icon="folder-open" href="/api/spaces">
+    Manage spaces to organise knowledge items into focused collections.
+  </Card>
+  <Card title="Users" icon="users" href="/api/users">
+    Invite, update, and remove workspace members and manage their roles.
+  </Card>
+</CardGroup>

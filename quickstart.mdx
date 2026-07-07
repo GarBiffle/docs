@@ -1,47 +1,62 @@
 ---
-title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+title: "Get Started with Company Brain in 5 Minutes"
+sidebarTitle: "Quickstart"
+description: "Create your Company Brain workspace, connect your first integration, and run your first AI-powered knowledge search in under five minutes."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
-
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+This guide takes you from a brand-new account to a fully functional knowledge hub in five steps. By the end, you'll have a workspace set up, at least one integration syncing your existing content, and your first AI-powered search under your belt. No prior configuration is required — just follow the steps in order and you'll be searching your company's collective intelligence in minutes.
 
 ## Prerequisites
 
-Before you begin, you must have:
+Before you begin, make sure you have the following:
 
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
+- A Company Brain account — [sign up free at app.companybrain.ai](https://app.companybrain.ai) if you don't have one yet.
+- A modern web browser (Chrome, Firefox, Edge, or Safari — latest two major versions).
 
-## Get started
+## Set up your workspace
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
+  <Step title="Create your workspace">
+    Sign in at [app.companybrain.ai](https://app.companybrain.ai). On the home screen, click **New Workspace**, enter a workspace name (your company or team name works great), and choose an icon to make it recognizable. Click **Create** to provision your private knowledge hub — it's ready instantly.
+  </Step>
+  <Step title="Invite your team">
+    Navigate to **Settings → Members** and click **Invite Members**. Enter one or more email addresses, then assign each person a role:
 
-    ```bash
-    npm install your-package
+    | Role | Best for |
+    |------|----------|
+    | **Owner** | The workspace creator; full control including billing |
+    | **Admin** | IT leads, team managers; can manage members and integrations |
+    | **Editor** | Most team members; can create, edit, and publish knowledge items |
+    | **Viewer** | Stakeholders or guests; read-only access |
+
+    Invitees receive an email with a sign-in link and are added to the workspace automatically when they accept.
+  </Step>
+  <Step title="Connect an integration">
+    Go to **Settings → Integrations** and click **Connect** next to any of the supported tools — Slack, Google Drive, Notion, or GitHub. Follow the OAuth prompts to authorize Company Brain to read your content. Once authorized, indexing begins automatically and your existing documents, messages, and files become searchable inside Company Brain.
+
+    <Note>
+      Indexing a large integration (for example, a Google Drive with thousands of files) can take a few minutes to complete. Watch for the progress indicator in the bottom-left corner of the app — it shows you exactly how much content has been indexed so far.
+    </Note>
+  </Step>
+  <Step title="Add a knowledge item manually">
+    Click **New Item** in the left sidebar. Give your item a clear title, then write the body using Markdown — headings, bullet lists, code blocks, and links are all supported. Add one or more tags to help the AI surface this item in relevant searches, assign it to a space if you've created any, and click **Publish** to make it available to your team.
+
+    ```markdown
+    ## How we handle customer escalations
+
+    1. Acknowledge the issue within **1 business hour**.
+    2. Assign an owner from the support team.
+    3. Post a status update in #customer-escalations every 2 hours.
+    4. Close the loop with the customer once resolved.
     ```
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
-
-    ```bash
-    your-cli init
-    ```
-  </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
-
-    ```bash
-    your-cli start
-    ```
+  <Step title="Run your first search">
+    Press `Cmd+K` on a Mac or `Ctrl+K` on Windows and Linux from anywhere in the app to open the universal search bar. Type a question in plain, natural language — for example, *"How do we handle customer escalations?"* — and press `Enter`. Company Brain returns the most semantically relevant results from across all your spaces and integrations, each with an AI-generated summary so you can evaluate relevance at a glance without opening every document.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## What's next?
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
+<Tip>
+  Now that your workspace is live, explore the [Core Concepts](/concepts) page to understand how workspaces, spaces, knowledge items, tags, and the knowledge graph all fit together. When you're ready to go deeper, the [Guides](/guides) section covers topics like setting up advanced permissions, creating a taxonomy with nested tags, and building automated workflows with the REST API.
 </Tip>

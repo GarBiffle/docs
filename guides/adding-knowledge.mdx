@@ -1,0 +1,91 @@
+---
+title: "Adding Knowledge Items to Company Brain"
+sidebarTitle: "Add Knowledge"
+description: "Learn how to create, import, and manage knowledge items in Company Brain — from manual documents to automated imports from connected integrations."
+---
+
+Knowledge items are the core unit of Company Brain. Every document, decision, FAQ, meeting note, and runbook lives as a knowledge item — a structured, searchable record that your entire team can find, reference, and build on. Whether you're capturing something from scratch, pulling content in from a connected tool, or bulk-importing an existing knowledge base, Company Brain gives you flexible ways to keep your collective intelligence up to date.
+
+## Create a knowledge item manually
+
+You can create a new knowledge item from anywhere in the app in just a few steps.
+
+<Steps>
+  <Step title="Open the new item dialog">
+    Click **New Item** in the left sidebar, or press `N` anywhere in the app to open the creation dialog instantly.
+  </Step>
+  <Step title="Enter a title">
+    Give your item a clear, descriptive title. Titles are indexed by search, so specificity helps — for example, "Production Deploy Runbook (AWS)" is more discoverable than "Deploy Docs".
+  </Step>
+  <Step title="Write your content">
+    Use the rich text editor to write the body of your knowledge item. The editor supports full Markdown syntax, including headings, bullet and numbered lists, code blocks with syntax highlighting, inline code, bold/italic formatting, tables, and image embeds.
+  </Step>
+  <Step title="Assign to one or more Spaces">
+    In the right-hand panel, select one or more Spaces to assign the item to. Spaces control who can see the item and where it appears in the navigation. You can assign an item to multiple Spaces if it's relevant across teams.
+  </Step>
+  <Step title="Add tags">
+    Type tags in the **Tags** field separated by commas, or press `Enter` after each tag. Tags make your item easier to filter and group. Aim for at least two or three tags per item.
+  </Step>
+  <Step title="Publish or save as draft">
+    Click **Publish** to make the item immediately visible to everyone who has access to its assigned Spaces. If the item isn't ready to share yet, click **Save Draft** to keep it private until you're finished.
+  </Step>
+</Steps>
+
+## Import from integrations
+
+When you connect Company Brain to an external tool, it automatically imports and continuously indexes that tool's content — no manual copy-pasting required. Supported integrations include Slack, Notion, Google Drive, Confluence, and GitHub. Once connected, the content from each integration is fully searchable alongside your manually created items.
+
+| Integration  | What's imported                     | Sync frequency |
+|--------------|-------------------------------------|----------------|
+| Slack        | Messages + threads                  | Every 15 min   |
+| Notion       | Pages + databases                   | Real-time      |
+| Google Drive | Docs + Sheets                       | Every 30 min   |
+| Confluence   | Pages + spaces                      | Every 60 min   |
+| GitHub       | READMEs + wikis + issues            | Every 30 min   |
+
+To set up an integration, go to **Settings → Integrations** and follow the connection steps for the tool you want to connect. See the [Integrations guide](/guides/integrations) for detailed instructions on each one.
+
+## Bulk import via CSV
+
+If you have an existing knowledge base — in a spreadsheet, a wiki export, or another tool — you can migrate it into Company Brain all at once using a CSV upload.
+
+Prepare your CSV file with the following columns:
+
+| Column  | Description                                      |
+|---------|--------------------------------------------------|
+| `title` | The title of the knowledge item (required)       |
+| `body`  | The body content in Markdown (required)          |
+| `tags`  | Comma-separated list of tags (optional)          |
+| `space` | The name of the Space to assign the item to (optional) |
+
+Here's an example CSV file:
+
+```csv
+title,body,tags,space
+Refund Policy,"Customers may request a refund within 30 days of purchase. To initiate, contact support@example.com.","policy,support,billing",Company-wide
+Production Deploy Runbook,"## Steps\n1. Merge PR to main\n2. CI runs automatically\n3. Deploy triggers on green build","runbook,engineering,devops",Engineering
+Q3 Retrospective Notes,"**What went well:** Shipped v2 on time.\n**What to improve:** Better sprint planning.","retro,meeting-notes",Product
+Onboarding Checklist,"- [ ] Set up accounts\n- [ ] Read the handbook\n- [ ] Meet your team lead","onboarding,hr",HR & People
+```
+
+To upload your CSV, go to **Settings → Import → CSV Upload**, select your file, map the columns if needed, and click **Import**. Company Brain will process the file and create all items in the background — you'll receive a notification when the import is complete.
+
+## Knowledge item fields
+
+Every knowledge item in Company Brain is made up of the following fields:
+
+| Field        | Type / Options                        | Required |
+|--------------|---------------------------------------|----------|
+| Title        | Plain text                            | ✅ Yes   |
+| Body         | Markdown                              | ✅ Yes   |
+| Tags         | Comma-separated list                  | No       |
+| Space(s)     | One or more Spaces                    | No       |
+| Owner        | Team member                           | No       |
+| Visibility   | `Public`, `Space`, or `Private`       | No       |
+| Source       | `manual` or the integration name      | Auto-set |
+
+The **Visibility** field gives you fine-grained control over who can access an item: **Public** makes it visible to your entire organization, **Space** restricts it to members of the assigned Space(s), and **Private** makes it visible only to you and Admins.
+
+<Tip>
+  Use templates to ensure that common knowledge types — like decision records, runbooks, and meeting notes — always follow a consistent structure. Learn how to create and apply templates in the [Organize Content guide](/guides/organizing-content).
+</Tip>

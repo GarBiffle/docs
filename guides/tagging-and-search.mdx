@@ -1,0 +1,73 @@
+---
+title: "Tagging Strategies and Search Tips for Company Brain"
+sidebarTitle: "Tags & Search"
+description: "Get the most from Company Brain's AI search with effective tagging strategies, filters, and advanced search operators for fast, precise knowledge retrieval."
+---
+
+Company Brain's AI search understands natural language, so you can find knowledge the way you'd ask a question — not just the way you'd type a keyword. But combining that AI capability with a consistent tagging strategy makes retrieval significantly faster and more precise. This guide covers how search works under the hood, the operators you can use to narrow results, and the tagging practices that make your knowledge base genuinely easy to navigate.
+
+## How search works
+
+Company Brain uses a hybrid search approach that combines two complementary techniques. The first is **semantic vector search**, which understands the meaning behind your query rather than just matching exact words. This means searching for "how do we handle customer complaints?" can surface a document titled "Support Escalation Process" even if it doesn't contain those exact words. The second is **BM25 ranking**, a proven keyword-relevance algorithm that ensures high-precision matches for specific terms, names, and identifiers still rank highly.
+
+The result is a search engine that handles both conversational questions and precise lookups equally well. You can search in natural language:
+
+- "What's our refund policy?"
+- "How do I deploy to production?"
+- "Who owns the data retention decision?"
+
+Or use specific terms and operators for more targeted results — see the sections below.
+
+## Search operators
+
+Search operators let you filter and narrow results directly from the search bar. You can combine multiple operators in a single query, for example: `tag:engineering space:backend updated:>2024-01-01`.
+
+| Operator              | What it does                                     | Example                         |
+|-----------------------|--------------------------------------------------|---------------------------------|
+| `tag:value`           | Filter results to items with a specific tag      | `tag:engineering`               |
+| `space:value`         | Filter results to items in a specific Space      | `space:marketing`               |
+| `author:value`        | Show items created by a specific person          | `author:jane`                   |
+| `updated:>YYYY-MM-DD` | Show items updated after a specific date         | `updated:>2024-01-01`           |
+| `"exact phrase"`      | Match an exact phrase in the title or body       | `"incident response"`           |
+| `NOT word`            | Exclude items containing a specific word         | `deployment NOT staging`        |
+
+## Tagging best practices
+
+Tags are most useful when your whole team uses them consistently. A tag taxonomy that only some people follow creates noise rather than signal. Here are the practices that make tags genuinely useful at scale:
+
+- **Use consistent, lowercase tags.** Decide on a canonical form for each tag and stick to it. For example, always use `engineering` rather than `Engineering`, `eng`, or `Eng`.
+- **Use nested tags to reflect hierarchy.** Nested tags like `engineering/backend` and `engineering/frontend` let you filter at both levels — searching `tag:engineering` returns items from both sub-teams, while `tag:engineering/backend` returns only backend items.
+- **Add at least 2–3 tags per item.** A single tag doesn't give you much to filter on. Think about the topic, the team, and the type of content: e.g., `runbook`, `engineering/devops`, `production`.
+- **Create and maintain a tag taxonomy document.** Write down all approved tags, their intended meaning, and any aliases to avoid. Pin this document in your **Company-wide** Space so everyone can reference it. Review and update it quarterly.
+- **Don't over-tag.** More than six or seven tags on a single item usually signals that the item should be split into multiple focused documents.
+
+## Saving searches
+
+If you run the same search regularly — say, `tag:decision space:engineering` to review all engineering decisions — you can save it as a shortcut so you don't have to retype it each time.
+
+To save a search:
+
+1. Run your search query in the search bar.
+2. Click the **bookmark icon** (🔖) that appears in the search results bar on the right side.
+3. Give your saved search a name, like "Engineering Decisions".
+4. Click **Save**.
+
+Your saved searches appear in the left sidebar under **Saved**. Click any saved search to run it instantly. You can edit or delete saved searches at any time from the sidebar by hovering over the search name and clicking the **⋯** menu.
+
+Saved searches are personal — they're only visible to you, not your whole team.
+
+## Search keyboard shortcuts
+
+You can navigate search entirely from the keyboard without reaching for your mouse. Here are the shortcuts to know:
+
+| Shortcut           | Action                            |
+|--------------------|-----------------------------------|
+| `Cmd / Ctrl + K`   | Open the search bar from anywhere |
+| `↑` / `↓`          | Navigate up and down results      |
+| `Enter`            | Open the selected result          |
+| `Esc`              | Close the search bar              |
+| `Cmd / Ctrl + Enter` | Open the selected result in a new tab |
+
+<Tip>
+  For best results, ask search questions the way you'd ask a colleague. "What's our process for offboarding an employee?" will often outperform "offboarding process steps" because the semantic search engine is optimized for intent, not keyword density.
+</Tip>

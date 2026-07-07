@@ -1,0 +1,145 @@
+---
+title: "Receive Real-Time Events with Company Brain Webhooks"
+sidebarTitle: "Webhooks"
+description: "Company Brain webhooks deliver real-time HTTP POST notifications to your endpoint when knowledge items, spaces, or members change."
+---
+
+Company Brain webhooks let you react to events in real time — when a knowledge item is created, a space is updated, or a member joins, Company Brain sends an HTTP POST request to your configured endpoint. This makes it easy to keep external systems in sync, trigger automations, or build event-driven integrations without polling the API.
+
+## Supported events
+
+The following events are available for webhook subscriptions. You can subscribe to all events or select only the ones relevant to your integration.
+
+| Event | Description |
+|---|---|
+| `knowledge.created` | A knowledge item was created |
+| `knowledge.updated` | A knowledge item was updated |
+| `knowledge.deleted` | A knowledge item was deleted |
+| `knowledge.published` | A draft knowledge item was published |
+| `space.created` | A new space was created |
+| `space.updated` | A space was updated |
+| `member.invited` | A member was invited to the workspace |
+| `member.joined` | A member accepted their invitation |
+| `member.removed` | A member was removed from the workspace |
+
+## Register a webhook endpoint
+
+To start receiving webhook events, you need to register an endpoint in your workspace settings. Your endpoint must be publicly reachable and respond to POST requests.
+
+<Steps>
+  <Step title="Go to Settings → Webhooks">
+    Open your workspace settings and navigate to the **Webhooks** section.
+  </Step>
+  <Step title="Click Add Endpoint">
+    Click the **Add Endpoint** button to open the endpoint configuration form.
+  </Step>
+  <Step title="Enter your HTTPS endpoint URL">
+    Provide the full HTTPS URL where Company Brain should deliver event payloads.
+  </Step>
+  <Step title="Select the events you want to receive">
+    Choose one or more events from the supported events list. You can update your selections at any time.
+  </Step>
+  <Step title="Click Save">
+    Click **Save** — Company Brain immediately sends a test event to verify the endpoint is reachable. Confirm the test event was received before relying on the endpoint in production.
+  </Step>
+</Steps>
+
+<Note>
+  Webhook endpoints must use HTTPS. Plain HTTP endpoints are not accepted.
+</Note>
+
+## Webhook payload
+
+Every webhook request is sent as an HTTP POST with a `Content-Type: application/json` body. The payload follows a consistent structure across all event types: a top-level `event` name, an ISO 8601 `timestamp`, the originating `workspace_id`, and a `data` object containing the resource that changed.
+
+Below is a full example payload for the `knowledge.created` event:
+
+```json
+{
+  "event": "knowledge.created",
+  "timestamp": "2024-03-15T10:23:45Z",
+  "workspace_id": "ws_abc123",
+  "data": {
+    "id": "item_xyz789",
+    "title": "Refund Policy v2",
+    "tags": ["policy", "finance"],
+    "space_ids": ["sp_hr001"],
+    "author_id": "usr_jane01",
+    "created_at": "2024-03-15T10:23:45Z"
+  }
+}
+```
+
+The `data` object shape varies by event type but always includes an `id` field identifying the affected resource.
+
+## Verifying webhook signatures
+
+Company Brain signs every webhook request so you can confirm it genuinely originated from Company Brain and has not been tampered with. Each registered endpoint has its own unique signing secret, which you can view in **Settings → Webhooks → [endpoint]**.
+
+The signature is included in the `X-Brain-Signature-256` request header in the format `sha256=HMAC_HEX`, where the HMAC is computed over the raw request body using SHA-256 and your endpoint's signing secret.
+
+<Warning>
+  Always verify the signature before processing any webhook payload. Skip verification only during local development and never in production.
+</Warning>
+
+To verify the signature, compute the expected HMAC from the raw request body and your secret, then compare it to the value in the header using a constant-time comparison to prevent timing attacks.
+
+<Tabs>
+  <Tab title="Node.js">
+    ```javascript Node.js
+    const crypto = require('crypto');
+
+    function verifyWebhook(payload, signature, secret) {
+      const expected = 'sha256=' + crypto
+        .createHmac('sha256', secret)
+        .update(payload, 'utf8')
+        .digest('hex');
+      return crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expected)
+      );
+    }
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python Python
+    import hmac
+    import hashlib
+
+    def verify_webhook(payload: bytes, signature: str, secret: str) -> bool:
+        expected = 'sha256=' + hmac.new(
+            secret.encode(),
+            payload,
+            hashlib.sha256
+        ).hexdigest()
+        return hmac.compare_digest(signature, expected)
+    ```
+  </Tab>
+</Tabs>
+
+## Retry behavior
+
+Company Brain considers a delivery successful when your endpoint returns any HTTP `2xx` status code within the timeout window. If your endpoint returns a non-`2xx` response or does not respond in time, Company Brain automatically retries the delivery up to **5 times** using exponential backoff:
+
+| Attempt | Delay after previous failure |
+|---|---|
+| 1st retry | 1 minute |
+| 2nd retry | 5 minutes |
+| 3rd retry | 30 minutes |
+| 4th retry | 2 hours |
+| 5th retry | 8 hours |
+
+After 5 consecutive failures, the endpoint is automatically disabled to prevent further delivery attempts. You can view the full delivery history — including request and response details for each attempt — and manually trigger a retry from **Settings → Webhooks → [endpoint] → Delivery Logs**. Re-enable a disabled endpoint from the same screen once you have resolved the underlying issue.
+
+## Best practices
+
+Follow these guidelines to build a reliable webhook integration:
+
+- **Always verify the signature before processing.** Treat any payload with an invalid or missing signature as untrusted and discard it.
+- **Respond with `2xx` within 10 seconds.** If your processing logic takes longer, acknowledge the webhook immediately and handle the work asynchronously (for example, by pushing the payload onto a queue).
+- **Use idempotency to handle duplicate deliveries.** Webhook events may occasionally be delivered more than once. Use the `data.id` field — or an `event.id` if present — to detect and safely ignore duplicates.
+- **Store the raw request body before parsing.** Signature verification must be performed against the raw bytes received over the wire. Parsing the body first (for example, with a JSON middleware) can alter the byte representation and cause verification to fail.
+
+<Tip>
+  For general information about authenticating and making requests to the Company Brain API, see the [API Overview](/api/overview).
+</Tip>

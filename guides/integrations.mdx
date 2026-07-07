@@ -1,0 +1,88 @@
+---
+title: "Connect Company Brain to Your Existing Tools"
+sidebarTitle: "Integrations"
+description: "Integrate Company Brain with Slack, Notion, Google Drive, Confluence, and GitHub to automatically index and surface knowledge from every tool your team uses."
+---
+
+Company Brain connects to the tools your team already uses, turning every message, doc, and PR description into searchable, discoverable knowledge without any manual effort. Instead of asking your team to change their workflows, integrations meet people where they already are — and quietly build your organization's knowledge base in the background. Once connected, content from your integrated tools appears in search results alongside your manually created items.
+
+## Available integrations
+
+<CardGroup cols={2}>
+  <Card title="Slack" icon="slack">
+    Capture decisions, answers, and context that would otherwise disappear into your message history. Company Brain indexes public channels, threads, and saved messages so conversational knowledge becomes permanent.
+  </Card>
+  <Card title="Notion" icon="n">
+    Sync your entire Notion workspace — pages, nested pages, and databases — into Company Brain in real time. Keep using Notion as your source of truth while making its content searchable alongside everything else.
+  </Card>
+  <Card title="Google Drive" icon="google-drive">
+    Index Google Docs, Sheets, and Slides from any Drive or shared folder you choose. Company Brain keeps its index fresh with a sync every 30 minutes so updated documents are always reflected.
+  </Card>
+  <Card title="Confluence" icon="c">
+    Import all of your Confluence spaces and pages into Company Brain. Whether you have a handful of spaces or hundreds, Company Brain syncs and indexes them so your team can search across Confluence and all your other tools in one place.
+  </Card>
+  <Card title="GitHub" icon="github">
+    Surface institutional knowledge locked inside your repositories. Company Brain indexes READMEs, repository wikis, and issue discussions so engineering decisions and technical context are findable by everyone.
+  </Card>
+</CardGroup>
+
+## Connecting an integration
+
+The connection process follows the same pattern for every integration. You'll authorize Company Brain to access your account via OAuth, choose what to sync, and let Company Brain handle the rest.
+
+<Steps>
+  <Step title="Open Integrations settings">
+    Go to **Settings → Integrations**. You'll see a list of all available integrations, each showing its current connection status.
+  </Step>
+  <Step title="Select the integration to connect">
+    Click the integration you want to set up. This opens the integration detail page with a description of what will be imported and any prerequisites.
+  </Step>
+  <Step title="Authorize access">
+    Click **Connect** to begin the OAuth flow. You'll be redirected to the third-party tool to sign in (if you aren't already) and approve the permissions Company Brain needs. Company Brain only requests read access — it never modifies content in your connected tools.
+  </Step>
+  <Step title="Choose what to sync">
+    After authorizing, you'll be prompted to select which channels, spaces, folders, or repositories to include in the sync. You can always come back and adjust these selections later from the integration's settings page.
+  </Step>
+  <Step title="Start the initial sync">
+    Click **Start Sync**. Company Brain begins indexing your selected content immediately. Depending on the volume of content, the initial sync may take a few minutes to a few hours. You'll receive a notification when indexing is complete.
+  </Step>
+</Steps>
+
+## Managing sync settings
+
+After an integration is connected, you can fine-tune how and when it syncs from its settings page. Go to **Settings → Integrations** and click any connected integration to access:
+
+- **Sync frequency** — choose how often Company Brain checks for new or updated content. Options vary by integration (see the table in the [Adding Knowledge guide](/guides/adding-knowledge) for default frequencies).
+- **Content filters** — include or exclude specific channels, folders, labels, or repositories. Useful for keeping sensitive content out of the index.
+- **Re-sync** — trigger a full re-index of all content from this integration. Use this if you've made major structural changes in the source tool or if you suspect content is out of sync.
+- **Disconnect** — remove the integration entirely (see the warning below before doing this).
+
+Changes to sync settings take effect on the next sync cycle. If you want them to apply immediately, click **Re-sync** after saving.
+
+## Slack-specific: Save to Brain
+
+Beyond automatic indexing, Company Brain adds a Slack slash command — `/brain save` — that lets any team member manually save a specific message directly to Company Brain and assign it a tag and Space on the spot.
+
+This is especially useful for capturing decisions or answers that were made in a conversation and should be preserved as a knowledge item for future reference, without waiting for the next sync cycle.
+
+To use it, reply to any Slack message with:
+
+```text
+/brain save tag:decision space:engineering
+```
+
+Company Brain will create a new knowledge item from that message, apply the tag `decision`, and assign it to the **Engineering** Space. You'll get a confirmation in Slack with a link to the new item.
+
+You can include multiple tags by separating them with commas:
+
+```text
+/brain save tag:decision,q3-planning space:product
+```
+
+<Warning>
+  Removing an integration from Company Brain also permanently removes all the content that was imported from it. Any knowledge items that originated from that integration — including those that have been tagged, linked, or referenced by other items — will be deleted from your Company Brain index. If you want to preserve specific items before disconnecting, open them and use **Save as Manual Copy** to convert them to manually managed knowledge items first.
+</Warning>
+
+<Note>
+  If you use a tool that isn't listed here, you can bring its content into Company Brain programmatically using the Company Brain API. The API supports creating, updating, and tagging knowledge items from any source. See the **API Reference** for full documentation on available endpoints and authentication.
+</Note>

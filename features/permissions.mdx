@@ -1,0 +1,84 @@
+---
+title: "Manage Access and Permissions in Company Brain"
+sidebarTitle: "Permissions"
+description: "Company Brain's role-based permissions let you control who can view, create, and manage knowledge at both the workspace and space level."
+---
+
+Company Brain uses a two-level permission model — workspace-level roles control what members can do globally across your entire Company Brain account, and space-level roles control access within individual spaces. This lets you give team members broad access to the workspace while still restricting sensitive spaces to the right people.
+
+## Workspace roles
+
+Every member of your Company Brain workspace is assigned one of the following roles. These roles govern what they can do at the platform level, independent of any specific space.
+
+| Role | Can do |
+|------|--------|
+| **Owner** | Everything: manage billing and subscription, delete the workspace, configure all settings, manage all members and spaces |
+| **Admin** | Manage members, create and manage spaces, configure integrations, and adjust workspace settings — but cannot change billing or delete the workspace |
+| **Editor** | Create and edit knowledge items in any space they belong to; cannot manage workspace settings or members |
+| **Viewer** | Read-only access to all public spaces and any spaces they've been added to; cannot create or edit items |
+
+A workspace can have multiple Owners. We recommend having at least two Owners so access isn't lost if one person leaves.
+
+## Space roles
+
+Space roles are assigned per-space and can differ from a member's workspace role. A person can be an Editor at the workspace level but a Viewer in a specific sensitive space, or a Viewer workspace-wide but a Space Owner for a space they manage.
+
+| Role | Permissions |
+|------|-------------|
+| **Space Owner** | Full control over the space: manage members, change settings, pin items, and delete the space |
+| **Space Admin** | Manage space members and settings; cannot delete the space |
+| **Editor** | Create and edit knowledge items within this space |
+| **Viewer** | Read-only access to items in this space |
+| **No access** | Cannot see or access the space — used for private spaces to explicitly block non-members |
+
+Workspace Owners and Admins automatically have full access to every space, including private ones, regardless of their space-level assignment.
+
+## Item-level visibility
+
+In addition to space roles, individual knowledge items have their own **visibility setting** that provides a third layer of control:
+
+- **Public** — visible to all members of the workspace, regardless of which spaces the item belongs to.
+- **Space** — visible only to members of the space(s) the item has been added to.
+- **Private** — visible only to the item's owner. Use this for drafts or personal notes you're not ready to share.
+
+You can change an item's visibility at any time from the metadata panel on the right side of the item view.
+
+## Managing members
+
+You manage workspace membership from **Settings → Members**. From this page you can invite new people, change existing members' roles, and remove members who should no longer have access.
+
+### Inviting a new member
+
+<Steps>
+  <Step title="Open the Members settings">
+    Go to **Settings → Members** from the left sidebar.
+  </Step>
+  <Step title="Click Invite Members">
+    Click the **Invite Members** button in the top-right corner.
+  </Step>
+  <Step title="Enter the email address">
+    Type the invitee's work email address. You can enter multiple addresses separated by commas to send bulk invitations.
+  </Step>
+  <Step title="Assign a workspace role">
+    Select the workspace role you want to assign: Owner, Admin, Editor, or Viewer.
+  </Step>
+  <Step title="Send the invitation">
+    Click **Send Invite**. The invitee will receive an email with a link to join your workspace. The invitation expires after 7 days.
+  </Step>
+</Steps>
+
+To change an existing member's role, find them in the Members list and click the role badge next to their name to open the role selector. To remove a member, click the **⋯** menu next to their name and select **Remove from workspace**.
+
+## Single Sign-On (SSO)
+
+Company Brain supports **SAML 2.0 Single Sign-On**, letting your team authenticate using your existing identity provider (such as Okta, Microsoft Entra ID, or Google Workspace). SSO configuration is available in **Settings → Security → SSO**.
+
+Company Brain also supports **SCIM provisioning** for automatic user lifecycle management. With SCIM enabled, your identity provider can automatically create, update, and deactivate Company Brain accounts when employees join or leave your organization — eliminating manual member management.
+
+<Note>
+  SSO and SCIM provisioning are available on the **Business** and **Enterprise** plans. If you're on a lower-tier plan and need SSO, contact [support@companybrain.com](mailto:support@companybrain.com) to discuss an upgrade.
+</Note>
+
+<Warning>
+  Removing a member from the workspace **immediately and irrevocably revokes their access** to all spaces, items, and integrations. They will be signed out of any active sessions within seconds. Make sure you intend to remove the correct person before confirming — this action cannot be undone without re-inviting them.
+</Warning>

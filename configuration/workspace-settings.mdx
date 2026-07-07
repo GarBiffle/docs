@@ -1,0 +1,92 @@
+---
+title: "Configure Your Company Brain Workspace"
+sidebarTitle: "Workspace Settings"
+description: "Customize your Company Brain workspace name, branding, domain, default language, and security settings from the Settings panel."
+---
+
+Workspace settings let you tailor Company Brain to your organization — from your company name and logo to security policies and default content language. Whether you're onboarding a new team or refining an existing setup, the Settings panel gives you full control over how your workspace looks, behaves, and protects your data.
+
+## Accessing settings
+
+Click your workspace name in the top-left corner of the app, then click **Settings** in the dropdown menu. Alternatively, navigate directly to `app.companybrain.ai/settings` in your browser.
+
+## General settings
+
+The **General** tab lets you configure the core identity and regional preferences of your workspace.
+
+| Field | Description |
+|---|---|
+| **Workspace name** | The display name for your organization, shown across the app and in email notifications. |
+| **Workspace URL slug** | Your unique subdomain (e.g. `acme.companybrain.ai`). Changing this updates all shared links — notify your team before making changes. |
+| **Logo (light version)** | Shown on light-mode backgrounds and in email footers. Recommended size: 200×48 px PNG or SVG. |
+| **Logo (dark version)** | Shown when dark mode is active. Use a version of your logo that works on dark backgrounds. |
+| **Default language** | Sets the default interface and spell-check language for all new members. Individual users can override this in their profile settings. |
+| **Timezone** | Used for scheduled digests, audit log timestamps, and notification delivery times. |
+
+After making changes, click **Save changes** at the bottom of the form.
+
+## Security settings
+
+The **Security** tab lets you define authentication and access policies for your entire workspace.
+
+**Password policy**
+
+- Set a minimum password length (default: 8 characters; recommended: 12+).
+- Require complexity rules: uppercase letters, numbers, and special characters.
+
+**Session timeout**
+
+Configure how long an idle session stays active before users are automatically signed out. Options range from 15 minutes to 30 days.
+
+**Allowed email domains**
+
+Restrict new signups to specific email domains. For example, entering `yourcompany.com` means only users with a `@yourcompany.com` address can create an account in your workspace. Add multiple domains by separating them with commas.
+
+**Two-factor authentication (2FA)**
+
+- **Optional** — users can choose to enable 2FA in their profile settings.
+- **Required** — all workspace members must enroll in 2FA before accessing any content. Users who haven't enrolled are prompted immediately on next login.
+
+## Data & privacy
+
+Company Brain is built with security and compliance at its core.
+
+- **Encryption at rest** — all stored data is encrypted using AES-256.
+- **Encryption in transit** — all data transmitted between your browser and Company Brain's servers uses TLS 1.3.
+- **Compliance** — Company Brain is GDPR-compliant and holds SOC 2 Type II certification. You can request a copy of the audit report from your account manager.
+- **Data residency** — choose whether your data is stored in the **US** or **EU** region. Data residency selection is available on the Enterprise plan and must be configured when the workspace is first created.
+
+Your data is never used to train shared AI models. Each workspace's data is fully isolated.
+
+## Billing
+
+Navigate to **Settings → Billing** to manage your subscription and payment details.
+
+From the **Plans** page you can:
+
+- View your **current plan** and its included limits.
+- Monitor **usage metrics** for the current billing period: total knowledge items, active members, and API calls made this month.
+- **Upgrade or downgrade** your plan — changes take effect at the start of your next billing cycle (downgrades) or immediately (upgrades).
+- **Manage payment methods** — add, remove, or update your credit card or invoice details.
+
+If you're on an annual plan, your renewal date and next invoice amount are shown at the top of the Billing page.
+
+<Note>
+Only **Workspace Owners** can access Billing settings or perform workspace-level destructive actions. Admins and Members do not have access to these sections.
+</Note>
+
+## Deleting a workspace
+
+<Warning>
+Deleting your workspace is **permanent and irreversible**. All knowledge items, spaces, integrations, member accounts, and associated data will be immediately and permanently removed. There is no recovery option. Export your data before proceeding (Settings → Data → Export).
+</Warning>
+
+To delete your workspace:
+
+1. Go to **Settings → General**.
+2. Scroll to the **Danger Zone** section at the bottom of the page.
+3. Click **Delete Workspace**.
+4. Type your workspace name to confirm.
+5. Click **Permanently Delete**.
+
+All data, integrations, and member access are permanently removed upon confirmation.

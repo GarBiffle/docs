@@ -1,0 +1,57 @@
+---
+title: "Core Concepts: How Company Brain Organizes Knowledge"
+sidebarTitle: "Concepts"
+description: "Understand Company Brain's data model — workspaces, spaces, knowledge items, tags, and the knowledge graph — before building your company brain."
+---
+
+Everything in Company Brain is built on five core concepts: workspaces, spaces, knowledge items, tags, the knowledge graph, and integrations. Understanding how these building blocks relate to one another will help you design an information architecture that scales with your team, keeps content discoverable, and gets the most out of the AI-powered features. Read through these concepts before you start creating spaces or importing content — a few minutes now will save a lot of reorganization later.
+
+## Building blocks
+
+<CardGroup cols={2}>
+  <Card title="Workspace" icon="building">
+    Your company's private instance of Company Brain. All users, spaces, knowledge items, integrations, and billing are scoped to a single workspace. You can create multiple workspaces (for example, to separate subsidiaries or sandbox environments), but data does not cross workspace boundaries. Admins and Owners manage workspace-level settings from **Settings → General**.
+  </Card>
+  <Card title="Spaces" icon="folder-open">
+    Spaces are departments or functional areas within your workspace — think Engineering, Marketing, HR, or Product. Each space has its own member list and permission settings, so sensitive HR documents can live in the HR space without being visible to the entire company. A knowledge item can belong to multiple spaces simultaneously, making cross-functional content easy to share without duplication.
+  </Card>
+  <Card title="Knowledge Items" icon="file-lines">
+    The fundamental unit of content in Company Brain. A knowledge item can be a document, a decision record, an FAQ answer, a runbook snippet, or an imported file. Every item has a **title**, a **body** (written in Markdown), one or more **tags**, an **owner**, and a **creation date**. Items are versioned automatically, so you can always see what changed and who changed it.
+  </Card>
+  <Card title="Tags" icon="tag">
+    Flexible labels you apply to knowledge items to describe their topic, status, or audience. Tags power filtering in search results and help the AI surface related content. Tags support nesting with a `/` separator — for example, `engineering/backend` or `engineering/frontend` — so you can build a lightweight taxonomy without the overhead of a rigid folder hierarchy.
+  </Card>
+  <Card title="Knowledge Graph" icon="diagram-project">
+    An automatically generated graph that maps the relationships between items, people, and topics across your entire workspace. The graph learns from explicit links you add, co-occurring tags, and the way people interact with content over time. Use the **Graph View** to visually explore how a decision connects to related documents, which team members own related content, and which topics cluster together.
+  </Card>
+  <Card title="Integrations" icon="plug">
+    Connected external tools whose content is synced into Company Brain and made fully searchable. Supported integrations include Slack, Notion, GitHub, Google Drive, and Confluence. When you connect an integration, Company Brain indexes existing content and continues to sync new content in near-real time. Imported content is read-only inside Company Brain but links back to the source for editing.
+  </Card>
+</CardGroup>
+
+## Permissions model
+
+Company Brain uses a four-tier role system. Roles are assigned at the **workspace level** but can be further restricted at the **space level** — giving you fine-grained control over who can see and edit what.
+
+| Permission | Owner | Admin | Editor | Viewer |
+|---|:---:|:---:|:---:|:---:|
+| View published knowledge items | ✅ | ✅ | ✅ | ✅ |
+| Create and edit knowledge items | ✅ | ✅ | ✅ | ❌ |
+| Publish and unpublish items | ✅ | ✅ | ✅ | ❌ |
+| Manage tags and spaces | ✅ | ✅ | ❌ | ❌ |
+| Manage members and roles | ✅ | ✅ | ❌ | ❌ |
+| Manage integrations | ✅ | ✅ | ❌ | ❌ |
+| Manage billing and workspace settings | ✅ | ❌ | ❌ | ❌ |
+| Delete the workspace | ✅ | ❌ | ❌ | ❌ |
+
+<Note>
+  Workspace-level roles set a ceiling on what a user can do anywhere in the workspace. Space-level permissions can only be **more restrictive** than the workspace role — never more permissive. For example, you can give an Editor workspace-wide access but restrict them to Viewer-only access inside a confidential space. You cannot, however, grant a Viewer workspace-level role admin capabilities inside a specific space.
+</Note>
+
+## How the concepts fit together
+
+To put it concretely: your **workspace** contains one or more **spaces**. Each space holds **knowledge items** that are labeled with **tags**. The **knowledge graph** automatically surfaces connections between items, people, and tags — across all spaces — giving you a living map of your company's collective intelligence. **Integrations** bring in content from external tools so that your Slack messages, Notion pages, and GitHub discussions are all part of the same searchable graph.
+
+<Tip>
+  Ready to put these concepts into practice? Head to the [Quickstart](/quickstart) to create your workspace and add your first knowledge items, or browse the [Guides](/guides) section for in-depth walkthroughs of specific features like the knowledge graph, nested tags, and space permissions.
+</Tip>

@@ -1,0 +1,131 @@
+---
+title: "REST API Endpoint for AI-Powered Knowledge Search"
+sidebarTitle: "Search"
+description: "Run semantic AI-powered searches across your Company Brain knowledge base via the REST API. Returns ranked results with relevance scores and AI summaries."
+---
+
+The Search API lets you run Company Brain's AI-powered semantic search programmatically — making it easy to embed intelligent knowledge retrieval into your own applications, Slack bots, internal dashboards, or customer-facing portals. Unlike a simple keyword filter, the search engine understands the meaning behind your query and surfaces the most relevant knowledge items even when the exact words don't match.
+
+## GET /v1/search — AI-powered knowledge search
+
+Executes a semantic search across all knowledge items the authenticated API key has access to. Results are ranked by relevance score. When `include_summary` is enabled, an AI-generated summary synthesizing the top results is also returned.
+
+### Query parameters
+
+<ParamField query="q" type="string" required>
+  The search query. You can pass natural language questions (e.g. `"What is our refund policy?"`) or keyword phrases. Natural language questions tend to produce the most relevant results.
+</ParamField>
+
+<ParamField query="space_id" type="string">
+  Restrict the search to a single space. Pass the space's UUID to limit results to knowledge items published in that space.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter results to items that carry a specific tag slug (e.g. `policy`). You can combine this with `space_id` for more targeted searches.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="10">
+  The maximum number of results to return. Must be between `1` and `50`.
+</ParamField>
+
+<ParamField query="include_summary" type="boolean" default="false">
+  When `true`, the response includes an AI-generated summary that synthesizes the key information from the top results into a single, readable answer. Requires a Pro plan or higher.
+</ParamField>
+
+### Example request
+
+```bash
+curl "https://api.companybrain.ai/v1/search?q=refund+policy&include_summary=true" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "query": "refund policy",
+  "summary": "Company Brain's refund policy allows customers to request a full refund within 30 days of purchase. Refunds are processed within 5–10 business days and returned to the original payment method. Exceptions apply to annual plans that have been partially used beyond the first 30 days.",
+  "results": [
+    {
+      "id": "ki_09rst321",
+      "title": "Customer Refund Policy",
+      "body_excerpt": "Customers may request a full refund within 30 days of their initial purchase. To initiate a refund, contact support@example.com with your order number...",
+      "score": 0.97,
+      "tags": ["policy", "support", "billing"],
+      "space_id": "sp_02yz",
+      "author": {
+        "id": "usr_44jkl",
+        "name": "Dana Okonkwo"
+      },
+      "source": "manual",
+      "url": "https://app.companybrain.ai/items/ki_09rst321"
+    },
+    {
+      "id": "ki_10uvw654",
+      "title": "Billing FAQ",
+      "body_excerpt": "Q: Can I get a refund after 30 days? A: Partial refunds may be issued at our discretion for annual plans if fewer than 3 months have been used...",
+      "score": 0.84,
+      "tags": ["billing", "faq"],
+      "space_id": "sp_02yz",
+      "author": {
+        "id": "usr_31ghi",
+        "name": "Marcus Webb"
+      },
+      "source": "manual",
+      "url": "https://app.companybrain.ai/items/ki_10uvw654"
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="query" type="string">
+  The original search query string, echoed back in the response.
+</ResponseField>
+
+<ResponseField name="summary" type="string">
+  An AI-generated natural language summary synthesizing the key information from the top results. Only present when `include_summary=true` is passed and your workspace is on the Pro plan or higher. Returns `null` otherwise.
+</ResponseField>
+
+<ResponseField name="results" type="array">
+  An array of ranked knowledge item results, ordered from most to least relevant.
+
+  <Expandable title="Result fields">
+    <ResponseField name="id" type="string">
+      The unique identifier of the matching knowledge item.
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      The title of the knowledge item.
+    </ResponseField>
+    <ResponseField name="body_excerpt" type="string">
+      A short excerpt from the item body highlighting the most relevant passage (up to 300 characters).
+    </ResponseField>
+    <ResponseField name="score" type="number">
+      A relevance score between `0.0` and `1.0`. Higher values indicate stronger semantic similarity to your query.
+    </ResponseField>
+    <ResponseField name="tags" type="array of strings">
+      The tag slugs attached to the knowledge item.
+    </ResponseField>
+    <ResponseField name="space_id" type="string">
+      The ID of the primary space this item belongs to.
+    </ResponseField>
+    <ResponseField name="author" type="object">
+      The user who created the item, containing `id` and `name`.
+    </ResponseField>
+    <ResponseField name="source" type="string">
+      The origin of the item: `manual`, `integration`, or `import`.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      A direct link to the knowledge item in the Company Brain web app.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<Note>
+  Semantic search is available on all Company Brain plans at no additional cost. The `include_summary` parameter — which generates an AI-synthesized answer from the top results — requires a **Pro plan or higher**. On Starter plans, passing `include_summary=true` will be silently ignored and `summary` will return `null`.
+</Note>
+
+<Tip>
+  For best results, phrase your `q` parameter as a natural language question rather than a keyword string. For example, `"What is the process for requesting time off?"` will return more relevant results than `"time off request"`. The underlying model is optimized for question-answering style queries.
+</Tip>

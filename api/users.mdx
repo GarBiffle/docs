@@ -1,0 +1,262 @@
+---
+title: "REST API Endpoints for Users and Members"
+sidebarTitle: "Users"
+description: "Retrieve and manage workspace members via the Company Brain REST API. List users, look up profiles, and update roles programmatically."
+---
+
+The Users API lets you list workspace members, look up individual user profiles, and update member roles — making it straightforward to sync user management with your HR system, automate onboarding workflows, or keep roles consistent with an external directory service. All three endpoints operate on the workspace level, giving you a complete view of who has access to your Company Brain instance.
+
+## GET /v1/users — List all workspace members
+
+Returns a paginated list of all members in your workspace. You can optionally filter by workspace role to retrieve, for example, only admins or only viewers.
+
+### Query parameters
+
+<ParamField query="role" type="string">
+  Filter results to members with a specific workspace role. One of `owner`, `admin`, `editor`, or `viewer`. If omitted, all members are returned regardless of role.
+</ParamField>
+
+<ParamField query="page" type="integer" default="1">
+  The page number to return. Starts at `1`.
+</ParamField>
+
+<ParamField query="per_page" type="integer" default="20">
+  The number of users to return per page. Maximum is `100`.
+</ParamField>
+
+### Example request
+
+```bash
+curl "https://api.companybrain.ai/v1/users?role=editor&per_page=3" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "data": [
+    {
+      "id": "usr_31ghi",
+      "name": "Marcus Webb",
+      "email": "marcus@example.com",
+      "role": "editor",
+      "created_at": "2023-10-12T09:00:00Z",
+      "last_active_at": "2024-04-17T15:42:00Z"
+    },
+    {
+      "id": "usr_55mno",
+      "name": "Sofia Torres",
+      "email": "sofia@example.com",
+      "role": "editor",
+      "created_at": "2023-11-05T11:30:00Z",
+      "last_active_at": "2024-04-18T08:15:00Z"
+    },
+    {
+      "id": "usr_62pqr",
+      "name": "James Okafor",
+      "email": "james@example.com",
+      "role": "editor",
+      "created_at": "2024-01-22T14:00:00Z",
+      "last_active_at": "2024-04-16T10:05:00Z"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "per_page": 3,
+    "total": 21
+  }
+}
+```
+
+### Response fields
+
+<ResponseField name="data" type="array">
+  An array of workspace member objects.
+
+  <Expandable title="User fields">
+    <ResponseField name="id" type="string">
+      The unique identifier for the workspace member.
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      The full display name of the member.
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      The email address of the member.
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      The member's workspace-level role: `owner`, `admin`, `editor`, or `viewer`.
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the member joined the workspace.
+    </ResponseField>
+    <ResponseField name="last_active_at" type="string">
+      ISO 8601 timestamp of the member's most recent activity in the workspace. Returns `null` if the member has never logged in.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Pagination metadata.
+
+  <Expandable title="Meta fields">
+    <ResponseField name="page" type="integer">
+      The current page number.
+    </ResponseField>
+    <ResponseField name="per_page" type="integer">
+      The number of users returned per page.
+    </ResponseField>
+    <ResponseField name="total" type="integer">
+      The total number of workspace members matching your query.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+---
+
+## GET /v1/users/:id — Get a user profile
+
+Retrieves the full profile for a single workspace member, including their workspace role and a list of all spaces they belong to along with their role in each space.
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the workspace member to retrieve.
+</ParamField>
+
+### Example request
+
+```bash
+curl "https://api.companybrain.ai/v1/users/usr_31ghi" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "id": "usr_31ghi",
+  "name": "Marcus Webb",
+  "email": "marcus@example.com",
+  "role": "editor",
+  "spaces": [
+    {
+      "space_id": "sp_01hx",
+      "role": "editor"
+    },
+    {
+      "space_id": "sp_02yz",
+      "role": "viewer"
+    },
+    {
+      "space_id": "sp_03ab",
+      "role": "admin"
+    }
+  ],
+  "created_at": "2023-10-12T09:00:00Z",
+  "last_active_at": "2024-04-17T15:42:00Z"
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for the workspace member.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  The full display name of the member.
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  The email address of the member.
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  The member's workspace-level role: `owner`, `admin`, `editor`, or `viewer`.
+</ResponseField>
+
+<ResponseField name="spaces" type="array">
+  A list of space memberships for this user.
+
+  <Expandable title="Space membership fields">
+    <ResponseField name="space_id" type="string">
+      The unique identifier of the space.
+    </ResponseField>
+    <ResponseField name="role" type="string">
+      The user's role within that specific space: `owner`, `admin`, `editor`, or `viewer`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the member joined the workspace.
+</ResponseField>
+
+<ResponseField name="last_active_at" type="string">
+  ISO 8601 timestamp of the member's most recent activity in the workspace.
+</ResponseField>
+
+---
+
+## PUT /v1/users/:id — Update a user's workspace role
+
+Updates the workspace-level role for an existing member. Your API key must have the **Admin** scope to use this endpoint. Note that this sets the user's role at the workspace level — space-level roles are managed separately.
+
+<Warning>
+  Changing a user's workspace role takes effect immediately and affects their access to all spaces and workspace-level features. Downgrading an admin to a viewer, for example, will immediately revoke their ability to manage spaces, invite members, and access admin settings across the entire workspace.
+</Warning>
+
+### Path parameters
+
+<ParamField path="id" type="string" required>
+  The unique identifier of the workspace member whose role you want to update.
+</ParamField>
+
+### Request body
+
+<ParamField body="role" type="string" required>
+  The new workspace role to assign. Must be one of `owner`, `admin`, `editor`, or `viewer`. Note: a workspace can only have one `owner`. Assigning `owner` to another user will transfer ownership and demote the current owner to `admin`.
+</ParamField>
+
+### Example request
+
+```bash
+curl -X PUT "https://api.companybrain.ai/v1/users/usr_31ghi" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "role": "admin"
+  }'
+```
+
+### Example response
+
+```json
+{
+  "id": "usr_31ghi",
+  "name": "Marcus Webb",
+  "email": "marcus@example.com",
+  "role": "admin",
+  "spaces": [
+    {
+      "space_id": "sp_01hx",
+      "role": "editor"
+    },
+    {
+      "space_id": "sp_02yz",
+      "role": "viewer"
+    },
+    {
+      "space_id": "sp_03ab",
+      "role": "admin"
+    }
+  ],
+  "created_at": "2023-10-12T09:00:00Z",
+  "last_active_at": "2024-04-17T15:42:00Z"
+}
+```
+
+<Note>
+  Inviting new users to your workspace is not yet available via the API. To add new members, go to **Settings → Members** in the Company Brain dashboard and send invitations from there. This capability will be added to the API in a future release.
+</Note>

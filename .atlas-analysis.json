@@ -1,30 +1,11 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
+  "projectType": "saas",
+  "projectName": "Company Brain",
+  "projectDescription": "A centralized knowledge hub that captures, organizes, and surfaces your company's collective intelligence so every team member can find answers instantly.",
   "theme": "almond",
-  "name": "Company Brain",
-  "colors": {
-    "primary": "#ef7025",
-    "light": "#eec9bc",
-    "dark": "#4fa1ab"
-  },
-  "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:support@companybrain.ai"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Get Started",
-      "href": "https://app.companybrain.ai"
-    }
-  },
+  "primaryColor": "#ef7025",
+  "lightColor": "#eec9bc",
+  "darkColor": "#4fa1ab",
   "navigation": {
     "tabs": [
       {
@@ -102,10 +83,26 @@
       }
     ]
   },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/companybrain",
-      "linkedin": "https://linkedin.com/company/companybrain"
-    }
-  }
+  "keyFeatures": [
+    "AI-powered semantic search across all company knowledge",
+    "Knowledge graph to visualize relationships between topics",
+    "Spaces for organizing knowledge by team, project, or topic",
+    "Granular permissions and access controls",
+    "Integrations with Slack, Google Drive, Notion, Confluence, and GitHub",
+    "Real-time collaboration and co-editing",
+    "Webhooks and REST API for custom workflows",
+    "Automated knowledge capture from connected tools"
+  ],
+  "publicApiSurface": [
+    "GET /api/v1/knowledge",
+    "POST /api/v1/knowledge",
+    "PUT /api/v1/knowledge/:id",
+    "DELETE /api/v1/knowledge/:id",
+    "GET /api/v1/search",
+    "GET /api/v1/spaces",
+    "POST /api/v1/spaces",
+    "GET /api/v1/users",
+    "POST /api/v1/webhooks",
+    "GET /api/v1/webhooks"
+  ]
 }

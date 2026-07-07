@@ -1,0 +1,108 @@
+---
+title: "Troubleshoot Common Company Brain Issues"
+sidebarTitle: "Troubleshooting"
+description: "Diagnose and resolve common issues with Company Brain: search not returning results, integration sync failures, login problems, and permission errors."
+---
+
+Most issues with Company Brain can be resolved quickly without contacting support. This page covers the most common problems and step-by-step instructions to fix them. Work through the relevant section below, and if the issue persists, our support team is ready to help.
+
+<AccordionGroup>
+  <Accordion title="Search isn't returning expected results">
+    If a search query isn't surfacing an item you know exists, work through these checks in order:
+
+    1. **Check the item's status** — open the item directly. If its status is **Draft**, it is excluded from search results. Change the status to **Published** to make it searchable.
+    2. **Use broader search terms** — Company Brain uses semantic search, but very specific or technical jargon may not match well. Try rephrasing with more general terms or synonyms.
+    3. **Check your space access** — you can only search items in spaces you're a member of. Ask a Space Admin or Workspace Owner to verify your membership and role.
+    4. **Clear active search filters** — open the search panel and look for active filters (date range, space, tags, source). Clear all filters and search again to rule out a filter mismatch.
+    5. **Wait for indexing** — if you just created or edited the item, allow up to 2 minutes for the search index to update.
+  </Accordion>
+
+  <Accordion title="Integration sync is stuck or failing">
+    An integration with a status of `Error` or a last sync time that hasn't updated in over an hour needs attention.
+
+    1. Go to **Settings → Integrations** and click the affected integration.
+    2. Read the **error message** displayed on the integration card — it usually identifies the root cause.
+    3. **Expired OAuth token** — this is the most common cause. Click **Re-authorize** and complete the OAuth flow to grant fresh access. The sync resumes automatically.
+    4. **Persistent errors** — if re-authorizing doesn't resolve the issue, click **Pause sync**, wait 5 minutes, then click **Resume sync**. This resets the sync queue and often clears transient failures.
+    5. **Check external service status** — verify that the source service (e.g. Notion, Google Drive) isn't experiencing an outage by checking their status pages.
+    6. If the problem persists after the above steps, contact [support@companybrain.ai](mailto:support@companybrain.ai) with the integration name and the error message text.
+  </Accordion>
+
+  <Accordion title="Can't log in to my account">
+    If you're unable to sign in, try these steps:
+
+    1. **Verify your email address** — make sure you're using the email address associated with your Company Brain account.
+    2. **SSO users** — if your workspace uses Single Sign-On, you must sign in through your company's identity provider. Look for the **Sign in with SSO** button on the login page and enter your company email domain.
+    3. **Clear browser cache and cookies** — stale session data can block login. Clear your cache, close and reopen your browser, and try again.
+    4. **Reset your password** — on the login page, click **Forgot password?**, enter your email address, and follow the link in the reset email. Check your spam folder if the email doesn't arrive within 2 minutes.
+    5. **Browser compatibility** — Company Brain supports the latest versions of Chrome, Firefox, Safari, and Edge. If you're using an older browser, upgrade it and try again.
+  </Accordion>
+
+  <Accordion title="I'm not receiving email notifications">
+    If expected email notifications aren't arriving:
+
+    1. **Check your spam or junk folder** — notifications from `notifications@companybrain.ai` are occasionally filtered by overly aggressive spam rules. Mark the sender as safe.
+    2. **Verify your notification settings** — click your avatar → **Notification Settings** and confirm that email notifications are toggled **on** and that your preferred digest frequency is set to **Daily** or **Weekly** (not **Off**).
+    3. **Confirm your email address is verified** — go to **Settings → Profile** and check whether your email address shows a "Verified" badge. If not, click **Resend verification email** and complete the verification.
+    4. **Check for workspace-level overrides** — Workspace Owners can disable certain notification types workspace-wide. Ask your Workspace Owner if a policy change may have affected your settings.
+  </Accordion>
+
+  <Accordion title="I can't access a space I was invited to">
+    If a space appears inaccessible after accepting an invitation:
+
+    1. **Confirm the invitation was accepted** — check your email for the original invitation. If you haven't clicked the acceptance link, do so now.
+    2. **Ask a Space Admin to verify your role** — a Space Admin can open **Space Settings → Members** and confirm your account is listed with the correct role (Viewer, Editor, or Admin).
+    3. **Workspace Owner check** — Workspace Owners can review all member permissions across all spaces in **Settings → Members**. They can re-invite you or adjust your role directly.
+    4. **Private spaces** — some spaces are set to **Invite-only**. Even if you received an invitation, your access may have been revoked since then. Ask the Space Admin to re-add you.
+  </Accordion>
+
+  <Accordion title="Knowledge items from an integration aren't showing up in search">
+    If an integration is marked `Active` but its content isn't appearing in search:
+
+    1. **Wait for initial indexing** — when an integration is first connected or re-authorized, the initial index can take **up to 15 minutes** depending on the volume of content. Check back shortly.
+    2. **Check integration status** — go to **Settings → Integrations** and confirm the integration status is `Active` (not `Paused` or `Error`). Review the last sync time.
+    3. **Review content filters** — open the integration's **Content filters** settings and confirm the specific channels, folders, pages, or repos you expect are included. Overly narrow filters are the most common reason items don't appear.
+    4. **Check item publish status** — items synced from integrations are published by default, but verify a sample item's status by finding it in **Settings → Integrations → [Name] → Indexed items**.
+    5. **Trigger a manual sync** — in the integration settings, click **Sync now** to force an immediate pull from the source.
+  </Accordion>
+
+  <Accordion title="The knowledge graph looks empty">
+    The knowledge graph needs a minimum amount of content and connections to render meaningfully.
+
+    1. **Add more items** — the graph requires at least **10 knowledge items** to begin displaying connections. If your workspace is new, focus on adding foundational content first.
+    2. **Use `[[Item Name]]` links** — in any item's body, type `[[` followed by the name of another item to create an explicit link. The graph renders these as edges between nodes immediately.
+    3. **Apply tags consistently** — items that share tags are clustered together in the graph. Create a consistent tagging taxonomy and apply relevant tags to your items.
+    4. **Connect integrations** — items synced from integrations are included in the graph and often have rich natural connections through shared topics and tags.
+    5. **Be patient with usage patterns** — connection suggestions based on team usage patterns build up over days and weeks as your team searches and navigates the workspace.
+  </Accordion>
+
+  <Accordion title="API requests are returning 401 Unauthorized">
+    A `401 Unauthorized` response means the API cannot verify your identity. Check the following:
+
+    1. **Verify your API key** — go to **Settings → API Keys** and confirm the key you're using is listed and shows a status of **Active**.
+    2. **Check for revoked keys** — if the key was recently deleted or rotated, generate a new key in **Settings → API Keys → New key** and update your application.
+    3. **Confirm the Authorization header format** — the API requires the key to be passed in the request header exactly as:
+
+    ```http
+    Authorization: Bearer YOUR_API_KEY
+    ```
+
+    A common mistake is omitting the `Bearer` prefix or adding extra whitespace.
+
+    4. **Check for environment mismatches** — if you have separate keys for development and production, confirm you're using the correct key for the environment you're targeting.
+    5. **Verify IP allowlisting** — Enterprise workspaces with IP allowlisting enabled will reject requests from addresses outside the allowlist. Check **Settings → Security → IP Allowlist**.
+  </Accordion>
+</AccordionGroup>
+
+## Still need help?
+
+If you've worked through the relevant steps above and the issue isn't resolved, our support team and community are here for you.
+
+<CardGroup cols={2}>
+  <Card title="Email Support" icon="envelope" href="mailto:support@companybrain.ai">
+    Contact our support team directly. We respond within one business day — usually faster.
+  </Card>
+  <Card title="Community Forum" icon="users" href="https://community.companybrain.ai">
+    Browse questions and answers from other Company Brain users, or post your own.
+  </Card>
+</CardGroup>

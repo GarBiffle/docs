@@ -1,0 +1,100 @@
+---
+title: "Authenticate with the Company Brain API"
+sidebarTitle: "Authentication"
+description: "Generate and manage API keys in Company Brain to authenticate REST API requests. Pass your key as a Bearer token in the Authorization header."
+---
+
+Company Brain authenticates every API request using API keys — long-lived tokens you generate directly from your workspace settings. Each key carries a permission scope that limits what it can do, so you can issue the least-privileged key your integration needs. Keep your keys secure and never expose them in client-side code or public repositories.
+
+## Generate an API Key
+
+<Steps>
+  <Step title="Open API Keys settings">
+    Go to **Settings → API Keys** in your Company Brain workspace.
+  </Step>
+  <Step title="Start a new key">
+    Click **Generate New Key** to open the key creation dialog.
+  </Step>
+  <Step title="Name your key">
+    Enter a descriptive name that identifies where and how the key will be used — for example, `"Production backend"` or `"Data pipeline"`. A clear name makes auditing and rotation much easier later.
+  </Step>
+  <Step title="Choose a permission scope">
+    Select the scope that matches the minimum access your integration requires:
+
+    - **Read-only** — safe for dashboards and read-heavy automations
+    - **Read/Write** — suitable for integrations that create or update content
+    - **Admin** — reserved for tools that manage users or other API keys
+  </Step>
+  <Step title="Create and copy your key">
+    Click **Create Key**. Copy the key value immediately and store it somewhere safe — Company Brain will never display the full key again after you close this dialog.
+  </Step>
+</Steps>
+
+## Using Your API Key
+
+Pass your API key as a Bearer token in the `Authorization` header of every request. The examples below show how to do this with cURL and JavaScript.
+
+<Tabs>
+  <Tab title="cURL">
+    ```bash
+    curl https://api.companybrain.ai/v1/knowledge \
+      -H "Authorization: Bearer YOUR_API_KEY"
+    ```
+  </Tab>
+  <Tab title="JavaScript (fetch)">
+    ```javascript
+    const response = await fetch('https://api.companybrain.ai/v1/knowledge', {
+      headers: {
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  Never commit API keys to source control. Store them as environment variables and reference them at runtime:
+
+  ```bash
+  BRAIN_API_KEY=your_key_here
+  ```
+
+  If a key is accidentally exposed, revoke it immediately from **Settings → API Keys** and generate a replacement.
+</Warning>
+
+## API Key Scopes
+
+Choose the narrowest scope that still allows your integration to function. Overly permissive keys increase the blast radius if a key is ever compromised.
+
+| Scope | Allowed operations |
+|---|---|
+| **Read-only** | `GET` requests only — list and retrieve knowledge items, spaces, and users. |
+| **Read/Write** | `GET`, `POST`, `PUT`, and `DELETE` on knowledge items and spaces. |
+| **Admin** | All operations, including managing workspace users and API keys. |
+
+## Rotating Keys
+
+Rotate a key to replace it with a new token while keeping the same name and scope. This is useful for scheduled credential hygiene or after a suspected exposure.
+
+1. Go to **Settings → API Keys** and click the key you want to rotate.
+2. Click **Rotate**. The old key is **immediately invalidated** — any in-flight requests using it will fail with `401 Unauthorized`.
+3. Copy the new key value and update every integration or environment variable that referenced the old key before closing the dialog.
+
+<Tip>
+  To minimise downtime during a rotation, update your integrations with the new key value before you click **Rotate**, then rotate and verify the new key works within the same deployment window.
+</Tip>
+
+## Revoking Keys
+
+Revoking a key permanently deletes it and immediately blocks all requests that use it. You cannot undo a revocation.
+
+1. Go to **Settings → API Keys** and click the key you want to remove.
+2. Click **Revoke** and confirm the action.
+
+Any service still using that key will immediately begin receiving `401 Unauthorized` responses. Make sure you have a replacement key deployed before revoking a key that is in active use.
+
+<Note>
+  Workspace **Owners** and **Admins** can view the list of all API keys in the workspace — including keys created by other members — along with their names, scopes, and creation dates. However, the full key value is never visible after initial creation, regardless of role.
+</Note>
