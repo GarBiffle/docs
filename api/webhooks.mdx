@@ -6,6 +6,158 @@ description: "Company Brain webhooks deliver real-time HTTP POST notifications t
 
 Company Brain webhooks let you react to events in real time — when a knowledge item is created, a space is updated, or a member joins, Company Brain sends an HTTP POST request to your configured endpoint. This makes it easy to keep external systems in sync, trigger automations, or build event-driven integrations without polling the API.
 
+## API endpoints
+
+You can register and manage webhook endpoints programmatically using the REST API in addition to the dashboard UI.
+
+---
+
+## POST /v1/webhooks — Register a webhook endpoint
+
+Registers a new webhook endpoint to receive event notifications. Your endpoint must be publicly reachable and use HTTPS.
+
+### Request body
+
+<ParamField body="url" type="string" required>
+  The full HTTPS URL where Company Brain should deliver event payloads (e.g. `https://your-app.example.com/webhooks/brain`).
+</ParamField>
+
+<ParamField body="events" type="array of strings" required>
+  An array of event names to subscribe to (e.g. `["knowledge.created", "knowledge.updated"]`). Pass `["*"]` to subscribe to all events.
+</ParamField>
+
+<ParamField body="description" type="string">
+  An optional human-readable label for this endpoint to help you identify it later (e.g. `"Production Slack bot"`).
+</ParamField>
+
+### Example request
+
+```bash
+curl -X POST "https://api.companybrain.ai/v1/webhooks" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://your-app.example.com/webhooks/brain",
+    "events": ["knowledge.created", "knowledge.updated", "knowledge.deleted"],
+    "description": "Production content sync"
+  }'
+```
+
+### Example response
+
+```json
+{
+  "id": "wh_01abc123",
+  "url": "https://your-app.example.com/webhooks/brain",
+  "events": ["knowledge.created", "knowledge.updated", "knowledge.deleted"],
+  "description": "Production content sync",
+  "status": "active",
+  "signing_secret": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "created_at": "2024-04-18T12:00:00Z"
+}
+```
+
+### Response fields
+
+<ResponseField name="id" type="string">
+  The unique identifier for the registered webhook endpoint.
+</ResponseField>
+
+<ResponseField name="url" type="string">
+  The HTTPS URL where payloads are delivered.
+</ResponseField>
+
+<ResponseField name="events" type="array of strings">
+  The list of event names this endpoint is subscribed to.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  The optional human-readable label for this endpoint.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The current status of the endpoint: `active` or `disabled`.
+</ResponseField>
+
+<ResponseField name="signing_secret" type="string">
+  The signing secret used to verify payloads sent to this endpoint. **This value is only returned once at creation time.** Store it securely immediately — you cannot retrieve it again after this response.
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of when the endpoint was registered.
+</ResponseField>
+
+---
+
+## GET /v1/webhooks — List webhook endpoints
+
+Returns a list of all webhook endpoints registered in your workspace.
+
+### Example request
+
+```bash
+curl "https://api.companybrain.ai/v1/webhooks" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Example response
+
+```json
+{
+  "data": [
+    {
+      "id": "wh_01abc123",
+      "url": "https://your-app.example.com/webhooks/brain",
+      "events": ["knowledge.created", "knowledge.updated", "knowledge.deleted"],
+      "description": "Production content sync",
+      "status": "active",
+      "created_at": "2024-04-18T12:00:00Z"
+    },
+    {
+      "id": "wh_02def456",
+      "url": "https://other-app.example.com/hooks/incoming",
+      "events": ["member.invited", "member.joined"],
+      "description": "HR onboarding automation",
+      "status": "active",
+      "created_at": "2024-03-10T09:30:00Z"
+    }
+  ]
+}
+```
+
+### Response fields
+
+<ResponseField name="data" type="array">
+  An array of registered webhook endpoint objects.
+
+  <Expandable title="Endpoint fields">
+    <ResponseField name="id" type="string">
+      The unique identifier for the webhook endpoint.
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      The HTTPS URL where payloads are delivered.
+    </ResponseField>
+    <ResponseField name="events" type="array of strings">
+      The list of event names this endpoint is subscribed to.
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      The optional human-readable label for this endpoint.
+    </ResponseField>
+    <ResponseField name="status" type="string">
+      The current status of the endpoint: `active` or `disabled`.
+    </ResponseField>
+    <ResponseField name="created_at" type="string">
+      ISO 8601 timestamp of when the endpoint was registered.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<Note>
+  The `signing_secret` is intentionally excluded from the list response for security. You can only retrieve the signing secret at the time you register the endpoint via `POST /v1/webhooks`. If you lose your signing secret, you must delete the endpoint and register a new one.
+</Note>
+
+---
+
 ## Supported events
 
 The following events are available for webhook subscriptions. You can subscribe to all events or select only the ones relevant to your integration.

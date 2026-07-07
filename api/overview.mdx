@@ -1,5 +1,5 @@
 ---
-title: "Company Brain REST API Reference Overview"
+title: "Company Brain REST API: Complete Reference Overview"
 sidebarTitle: "Overview"
 description: "The Company Brain REST API lets you create, search, and manage knowledge items, spaces, and users programmatically using standard HTTP requests."
 ---
@@ -10,7 +10,7 @@ The Company Brain REST API gives you programmatic access to your workspace's col
 
 All API requests are made to the following base URL. Every endpoint path is appended directly after `/v1`.
 
-```
+```text
 https://api.companybrain.ai/v1
 ```
 
@@ -18,7 +18,7 @@ https://api.companybrain.ai/v1
 
 Every request to the Company Brain API must include a valid API key. Pass your key as a Bearer token in the `Authorization` header:
 
-```
+```text
 Authorization: Bearer YOUR_API_KEY
 ```
 
@@ -28,7 +28,7 @@ See the [Authentication guide](/api/authentication) for instructions on generati
 
 All request and response bodies use JSON. When sending data with `POST` or `PUT` requests, include the `Content-Type` header so the API can correctly parse your payload.
 
-```
+```text
 Content-Type: application/json
 ```
 
@@ -128,5 +128,8 @@ curl "https://api.companybrain.ai/v1/knowledge?page=2&per_page=50" \
   </Card>
   <Card title="Users" icon="users" href="/api/users">
     Invite, update, and remove workspace members and manage their roles.
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/api/webhooks">
+    Register endpoints to receive real-time event notifications from your workspace.
   </Card>
 </CardGroup>

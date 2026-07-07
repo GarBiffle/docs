@@ -1,5 +1,5 @@
 ---
-title: "Authenticate with the Company Brain API"
+title: "Authenticate Requests to the Company Brain REST API"
 sidebarTitle: "Authentication"
 description: "Generate and manage API keys in Company Brain to authenticate REST API requests. Pass your key as a Bearer token in the Authorization header."
 ---
@@ -58,7 +58,7 @@ Pass your API key as a Bearer token in the `Authorization` header of every reque
   Never commit API keys to source control. Store them as environment variables and reference them at runtime:
 
   ```bash
-  BRAIN_API_KEY=your_key_here
+  export BRAIN_API_KEY=your_key_here
   ```
 
   If a key is accidentally exposed, revoke it immediately from **Settings → API Keys** and generate a replacement.
